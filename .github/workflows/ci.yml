@@ -1,0 +1,30 @@
+name: Mon Premier CI
+
+# Déclenche le pipeline à chaque push ou pull request sur la branche main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  tester-le-code:
+    runs-on: ubuntu-latest # GitHub te prête un serveur Ubuntu vierge
+    
+    steps:
+    - name: 1. Récupérer le code
+      uses: actions/checkout@v4
+
+    - name: 2. Installer Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: 3. Installer les dépendances (pytest)
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+
+    - name: 4. Lancer les tests automatiquement
+      run: |
+        python -m pytest test_app.py -v
